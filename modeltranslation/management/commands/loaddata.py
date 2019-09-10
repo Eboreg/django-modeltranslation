@@ -1,11 +1,10 @@
-from django import VERSION
-from django.core.management.commands.loaddata import Command as LoadDataCommand
-
 # Because this command is used (instead of default loaddata), then settings have been imported
 # and we can safely import MT modules
 from modeltranslation import settings as mt_settings
 from modeltranslation.utils import auto_populate
 
+from django import VERSION
+from django.core.management.commands.loaddata import Command as LoadDataCommand
 
 ALLOWED = (None, False, 'all', 'default', 'required')
 ALLOWED_FOR_PRINT = ', '.join(str(i) for i in (0, ) + ALLOWED[1:])  # For pretty-printing

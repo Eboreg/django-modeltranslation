@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from modeltranslation.tests import models
+from modeltranslation.translator import (
+    TranslationOptions, register, translator,
+)
+
 from django.conf import settings
 from django.utils.translation import ugettext_lazy
-
-from modeltranslation.translator import translator, register, TranslationOptions
-from modeltranslation.tests import models
 
 
 @register(models.TestModel)

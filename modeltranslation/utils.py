@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from contextlib import contextmanager
 
+from modeltranslation import settings
+
 from django.utils import six
 from django.utils.encoding import force_text
-from django.utils.translation import get_language as _get_language
-from django.utils.translation import get_language_info
 from django.utils.functional import lazy
-
-from modeltranslation import settings
+from django.utils.translation import (
+    get_language as _get_language, get_language_info,
+)
 
 
 def get_language():

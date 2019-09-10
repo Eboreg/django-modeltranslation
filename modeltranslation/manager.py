@@ -7,19 +7,20 @@ https://github.com/zmathew/django-linguo
 """
 import itertools
 
+from modeltranslation import settings
+from modeltranslation.fields import TranslationField
+from modeltranslation.utils import (
+    auto_populate, build_localized_fieldname, get_language, resolution_order,
+)
+
 from django.contrib.admin.utils import get_model_from_relation
 from django.db import models
 from django.db.models import FieldDoesNotExist
+from django.db.models.expressions import Col
+from django.db.models.lookups import Lookup
 from django.db.models.query import ValuesIterable
 from django.utils.six import moves
 from django.utils.tree import Node
-from django.db.models.lookups import Lookup
-from django.db.models.expressions import Col
-
-from modeltranslation import settings
-from modeltranslation.fields import TranslationField
-from modeltranslation.utils import (build_localized_fieldname, get_language,
-                                    auto_populate, resolution_order)
 
 _C2F_CACHE = {}
 _F2TM_CACHE = {}

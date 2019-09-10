@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 
+from modeltranslation import settings as mt_settings
+from modeltranslation.fields import (
+    NONE, LanguageCacheSingleObjectDescriptor, TranslatedRelationIdDescriptor,
+    TranslationFieldDescriptor, create_translation_field,
+)
+from modeltranslation.manager import (
+    MultilingualManager, MultilingualQuerysetManager, append_translated,
+    rewrite_lookup_key,
+)
+from modeltranslation.utils import build_localized_fieldname, parse_field
+
 import django
-from django.utils.six import with_metaclass
 from django.core.exceptions import ImproperlyConfigured
-from django.db.models import Manager, ForeignKey, OneToOneField
+from django.db.models import ForeignKey, Manager, OneToOneField
 from django.db.models.base import ModelBase
 from django.db.models.signals import post_init
-
-from modeltranslation import settings as mt_settings
-from modeltranslation.fields import (NONE, create_translation_field, TranslationFieldDescriptor,
-                                     TranslatedRelationIdDescriptor,
-                                     LanguageCacheSingleObjectDescriptor)
-from modeltranslation.manager import (MultilingualManager, MultilingualQuerysetManager,
-                                      rewrite_lookup_key, append_translated)
-from modeltranslation.utils import build_localized_fieldname, parse_field
+from django.utils.six import with_metaclass
 
 
 class AlreadyRegistered(Exception):
@@ -580,4 +583,4 @@ translator = Translator()
 
 
 # Re-export the decorator for convenience
-from modeltranslation.decorators import register  # NOQA re-export
+from modeltranslation.decorators import register  # isort:skip

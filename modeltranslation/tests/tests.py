@@ -1,34 +1,34 @@
 # -*- coding: utf-8 -*-
-from decimal import Decimal
-from unittest import skipUnless
 import datetime
 import imp
 import os
 import shutil
-
-import django
-from django import forms
-from django.conf import settings as django_settings
-from django.contrib.admin.sites import AdminSite
-from django.core.exceptions import ValidationError, ImproperlyConfigured
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from django.core.management import call_command
-from django.db import IntegrityError
-from django.db.models import Q, F, Count, TextField
-from django.test import TestCase, TransactionTestCase
-from django.test.utils import override_settings
-from django.utils import six
-from django.utils.translation import get_language, override, trans_real
-
-from django.apps import apps as django_apps
+from decimal import Decimal
+from unittest import skipUnless
 
 from modeltranslation import admin, settings as mt_settings, translator
 from modeltranslation.forms import TranslationModelForm
 from modeltranslation.models import autodiscover
 from modeltranslation.tests.test_settings import TEST_SETTINGS
-from modeltranslation.utils import (build_css_class, build_localized_fieldname,
-                                    auto_populate, fallbacks)
+from modeltranslation.utils import (
+    auto_populate, build_css_class, build_localized_fieldname, fallbacks,
+)
+
+import django
+from django import forms
+from django.apps import apps as django_apps
+from django.conf import settings as django_settings
+from django.contrib.admin.sites import AdminSite
+from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.management import call_command
+from django.db import IntegrityError
+from django.db.models import Count, F, Q, TextField
+from django.test import TestCase, TransactionTestCase
+from django.test.utils import override_settings
+from django.utils import six
+from django.utils.translation import get_language, override, trans_real
 
 MIGRATIONS = "django.contrib.auth" in TEST_SETTINGS['INSTALLED_APPS']
 

@@ -7,7 +7,6 @@ except ImportError:  # Django 1.3 fallback
     from django.conf.urls.defaults import include, patterns, url  # NOQA
 from django.contrib import admin
 
-
 urlpatterns = patterns(
     '',
     url(r'^set_language/$', 'django.views.i18n.set_language', {},

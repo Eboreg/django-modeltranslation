@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from modeltranslation.fields import TranslationField
+
 from django import forms
 from django.core import validators
-
-from modeltranslation.fields import TranslationField
 
 
 class TranslationModelForm(forms.ModelForm):

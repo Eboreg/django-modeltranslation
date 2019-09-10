@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.db.models import F, Q
-from django.core.management.base import BaseCommand
-
 from modeltranslation.settings import DEFAULT_LANGUAGE
 from modeltranslation.translator import translator
 from modeltranslation.utils import build_localized_fieldname
+
+from django.core.management.base import BaseCommand
+from django.db.models import F, Q
 
 
 class Command(BaseCommand):

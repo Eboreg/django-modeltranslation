@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-from django import VERSION
-from django import forms
+from modeltranslation import settings as mt_settings
+from modeltranslation.utils import (
+    build_localized_fieldname, build_localized_verbose_name, get_language,
+    resolution_order,
+)
+from modeltranslation.widgets import ClearableWidgetWrapper
+
+from django import VERSION, forms
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import fields
 from django.utils import six
-
-from modeltranslation import settings as mt_settings
-from modeltranslation.utils import (
-    get_language, build_localized_fieldname, build_localized_verbose_name, resolution_order)
-from modeltranslation.widgets import ClearableWidgetWrapper
-
 
 SUPPORTED_FIELDS = (
     fields.CharField,

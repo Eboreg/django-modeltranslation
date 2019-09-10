@@ -9,15 +9,15 @@ You will need to execute this command in two cases:
 
 Credits: Heavily inspired by django-transmeta's sync_transmeta_db command.
 """
+from modeltranslation.settings import AVAILABLE_LANGUAGES
+from modeltranslation.translator import translator
+from modeltranslation.utils import build_localized_fieldname
+
 from django import VERSION
 from django.core.management.base import BaseCommand
 from django.core.management.color import no_style
 from django.db import connection
 from django.utils.six import moves
-
-from modeltranslation.settings import AVAILABLE_LANGUAGES
-from modeltranslation.translator import translator
-from modeltranslation.utils import build_localized_fieldname
 
 
 def ask_for_confirmation(sql_sentences, model_full_name, interactive):
