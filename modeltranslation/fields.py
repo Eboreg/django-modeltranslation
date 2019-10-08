@@ -338,16 +338,22 @@ class TranslationFieldDescriptor(object):
         """
         if instance is None:
             return self
+        from modeltranslation.translator import translator
+        current_language = get_language()
         default = NONE
         undefined = self.fallback_undefined
         if undefined is NONE:
             default = self.field.get_default()
             undefined = default
-        langs = resolution_order(get_language(), self.fallback_languages)
+        langs = resolution_order(current_language, self.fallback_languages)
         for lang in langs:
             loc_field_name = build_localized_fieldname(self.field.name, lang)
             val = getattr(instance, loc_field_name, None)
             if self.meaningful_value(val, undefined):
+                if lang != current_language and self.field.get_internal_type() in ["TextField", "CharField"]:
+                    opts = translator.get_options_for_model(self.field.model)
+                    if hasattr(opts, "fallback_prepend") and self.field.name in opts.fallback_prepend:
+                        val = "{}{}".format(opts.fallback_prepend[self.field.name], val)
                 return val
         if mt_settings.ENABLE_FALLBACKS and self.fallback_value is not NONE:
             return self.fallback_value
