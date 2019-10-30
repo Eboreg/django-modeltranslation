@@ -6,6 +6,7 @@ django-linguo by Zach Mathew
 https://github.com/zmathew/django-linguo
 """
 import itertools
+from six import moves
 
 from modeltranslation import settings
 from modeltranslation.fields import TranslationField
@@ -19,7 +20,6 @@ from django.db.models import FieldDoesNotExist
 from django.db.models.expressions import Col
 from django.db.models.lookups import Lookup
 from django.db.models.query import ValuesIterable
-from django.utils.six import moves
 from django.utils.tree import Node
 
 _C2F_CACHE = {}

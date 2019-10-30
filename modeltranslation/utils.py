@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from contextlib import contextmanager
+import six
 
 from modeltranslation import settings
 
-from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.functional import lazy
 from django.utils.translation import (
