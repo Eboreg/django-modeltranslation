@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import six
+
 from modeltranslation import settings as mt_settings
 from modeltranslation.utils import (
     build_localized_fieldname, build_localized_verbose_name, get_language,
@@ -9,7 +11,6 @@ from modeltranslation.widgets import ClearableWidgetWrapper
 from django import VERSION, forms
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import fields
-from django.utils import six
 
 SUPPORTED_FIELDS = (
     fields.CharField,
@@ -360,10 +361,10 @@ class TranslationFieldDescriptor(object):
         else:
             if default is NONE:
                 default = self.field.get_default()
-            # Some fields like FileField behave strange, as their get_default() doesn't return
-            # instance of attr_class, but rather None or ''.
-            # Normally this case is handled in the descriptor, but since we have overridden it, we
-            # must mock it up.
+            # Some fields like FileField behave strange, as their
+            # get_default() doesn't return instance of attr_class, but rather
+            # None or ''. Normally this case is handled in the descriptor, but
+            # since we have overridden it, we must mock it up.
             if (isinstance(self.field, fields.files.FileField) and
                     not isinstance(default, self.field.attr_class)):
                 return self.field.attr_class(instance, self.field, default)
@@ -419,6 +420,6 @@ class LanguageCacheSingleObjectDescriptor(object):
 
     def get_cache_name(self):
         """
-        Used in django 2.x
+        Used in django > 2.x
         """
         return build_localized_fieldname(self.accessor, get_language())

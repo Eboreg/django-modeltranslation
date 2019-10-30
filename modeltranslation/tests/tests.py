@@ -8,6 +8,7 @@ from unittest import skipUnless
 
 from modeltranslation import admin, settings as mt_settings, translator
 from modeltranslation.forms import TranslationModelForm
+from modeltranslation.manager import MultilingualManager
 from modeltranslation.models import autodiscover
 from modeltranslation.tests.test_settings import TEST_SETTINGS
 from modeltranslation.utils import (
@@ -15,6 +16,7 @@ from modeltranslation.utils import (
 )
 
 import django
+import six
 from django import forms
 from django.apps import apps as django_apps
 from django.conf import settings as django_settings
@@ -27,7 +29,6 @@ from django.db import IntegrityError
 from django.db.models import Count, F, Q, TextField
 from django.test import TestCase, TransactionTestCase
 from django.test.utils import override_settings
-from django.utils import six
 from django.utils.translation import get_language, override, trans_real
 
 MIGRATIONS = "django.contrib.auth" in TEST_SETTINGS['INSTALLED_APPS']
@@ -39,7 +40,7 @@ models = translation = None
 request = None
 
 # How many models are registered for tests.
-TEST_MODELS = 31 + (1 if MIGRATIONS else 0)
+TEST_MODELS = 33 + (1 if MIGRATIONS else 0)
 
 
 class reload_override_settings(override_settings):
@@ -2730,6 +2731,20 @@ class TestManager(ModeltranslationTestBase):
         manager = models.CustomManagerTestModel.another_mgr_name
         self.assertTrue(isinstance(manager, MultilingualManager))
 
+    def test_default_manager_for_inherited_models_with_custom_manager(self):
+        """Test if default manager is still set from local managers"""
+        manager = models.CustomManagerChildTestModel._meta.default_manager
+        self.assertEqual('objects', manager.name)
+        self.assertTrue(isinstance(manager, MultilingualManager))
+        self.assertTrue(isinstance(
+            models.CustomManagerChildTestModel.translations,
+            MultilingualManager))
+
+    def test_default_manager_for_inherited_models(self):
+        manager = models.PlainChildTestModel._meta.default_manager
+        self.assertEqual('objects', manager.name)
+        self.assertTrue(isinstance(models.PlainChildTestModel.translations, MultilingualManager))
+
     def test_custom_manager2(self):
         """Test if user-defined queryset is still working"""
         from modeltranslation.manager import MultilingualManager, MultilingualQuerySet
@@ -2982,7 +2997,7 @@ class TestManager(ModeltranslationTestBase):
         # untrans is nullable so not included when select_related=True
         self.assertNotIn('_untrans_cache', fk_qs.select_related()[0].__dict__)
 
-    @skipUnless(django.VERSION[0] == 2, 'Applicable only to django 2.x')
+    @skipUnless(django.VERSION[0] >= 2, 'Applicable only to django > 2.x')
     def test_select_related_django_2(self):
         test = models.TestModel.objects.create(title_de='title_de', title_en='title_en')
         with auto_populate('all'):
