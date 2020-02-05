@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from contextlib import contextmanager
 import six
+from django.utils.encoding import force_str
+from django.utils.translation import get_language as _get_language
+from django.utils.translation import get_language_info
+from django.utils.functional import lazy
 
 from modeltranslation import settings
-
-from django.utils.encoding import force_text
-from django.utils.functional import lazy
-from django.utils.translation import (
-    get_language as _get_language, get_language_info,
-)
 
 
 def get_language():
@@ -52,7 +50,9 @@ def build_localized_fieldname(field_name, lang):
 def _build_localized_verbose_name(verbose_name, lang):
     if lang == 'id':
         lang = 'ind'
-    return force_text('%s [%s]') % (force_text(verbose_name), lang)
+    return force_str('%s [%s]') % (force_str(verbose_name), lang)
+
+
 build_localized_verbose_name = lazy(_build_localized_verbose_name, six.text_type)
 
 
